@@ -2,7 +2,7 @@
 CREATE DATABASE hisdb
 USE `hisdb`
 //病人
-CREATE TABLE `patient` (
+CREATE TABLE `zcmu_patient` (
   `uuid` varchar(20) NOT NULL COMMENT 'ID',
   `wardcode` varchar(20) DEFAULT NULL COMMENT '病区',
   `bed_No` varchar(20) DEFAULT NULL COMMENT '床位号',
@@ -27,7 +27,7 @@ CREATE TABLE `patient` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='患者';
 
 //病区床位
-CREATE TABLE `ward` (
+CREATE TABLE `zcmu_ward` (
   `wardcode` varchar(20) NOT NULL COMMENT '病区',
   `bed_No` varchar(20) DEFAULT NULL COMMENT '床位号',
   `wardName` varchar(20) DEFAULT NULL COMMENT '病区名',

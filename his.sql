@@ -28,10 +28,9 @@ CREATE TABLE `zcmu_patient` (
 
 //病区床位
 CREATE TABLE `zcmu_ward` (
-  `wardcode` varchar(20) NOT NULL COMMENT '病区',
-  `bed_No` varchar(20) DEFAULT NULL COMMENT '床位号',
-  `wardName` varchar(20) DEFAULT NULL COMMENT '病区名',
-  `parent_Id` varchar(20) DEFAULT NULL COMMENT '病人Id',
-  `status` varchar(1) DEFAULT NULL COMMENT '床位是否可用',
-  PRIMARY KEY (`wardcode`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='病区床位'
+  `wardcode` VARCHAR(20) NOT NULL COMMENT '病区',
+  `bed_no` VARCHAR(20) DEFAULT NULL COMMENT '床位号',
+  `ward_name` VARCHAR(20) DEFAULT NULL COMMENT '病区名',
+  `parent_Id` VARCHAR(20) DEFAULT NULL COMMENT '病人Id',
+  `status` VARCHAR(1) DEFAULT NULL COMMENT '床位是否可用'
+) ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT='病区床位'

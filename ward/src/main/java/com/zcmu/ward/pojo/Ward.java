@@ -8,16 +8,26 @@ import javax.persistence.Table;
  * 病区实体类
  */
 @Entity
-@Table(name = "ward")
+@Table(name = "zcmu_ward")
 public class Ward {
     @Id
     private String wardcode;
 
-    private String bedno;
+    private String bedNo;
 
-    private String parentid;
+    private String parentId;
+
+    private String wardName;
 
     private String status;
+
+    public String getWardName() {
+        return wardName;
+    }
+
+    public void setWardName(String wardName) {
+        this.wardName = wardName;
+    }
 
     public String getWardcode() {
         return wardcode;
@@ -27,20 +37,20 @@ public class Ward {
         this.wardcode = wardcode;
     }
 
-    public String getBedno() {
-        return bedno;
+    public String getBedNo() {
+        return bedNo;
     }
 
-    public void setBedno(String bedno) {
-        this.bedno = bedno;
+    public void setBedNo(String bedNo) {
+        this.bedNo = bedNo;
     }
 
-    public String getParentid() {
-        return parentid;
+    public String getParentId() {
+        return parentId;
     }
 
-    public void setParentid(String parentid) {
-        this.parentid = parentid;
+    public void setParentId(String parentId) {
+        this.parentId = parentId;
     }
 
     public String getStatus() {

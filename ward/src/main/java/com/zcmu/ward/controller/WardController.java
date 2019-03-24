@@ -21,6 +21,6 @@ public class WardController {
      */
     @RequestMapping(method = RequestMethod.GET)
     public Result findAll(){
-        return Result.success(wardService.findAll());
+        return Result.success(wardService.findWard(),"查询成功！");
     }
 }

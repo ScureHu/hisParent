@@ -34,3 +34,28 @@ CREATE TABLE `zcmu_ward` (
   `parent_Id` VARCHAR(20) DEFAULT NULL COMMENT '病人Id',
   `status` VARCHAR(1) DEFAULT NULL COMMENT '床位是否可用'
 ) ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT='病区床位'
+//医嘱拆分表
+CREATE TABLE `zcmu_order` (
+  `plan_id` varchar(20) NOT NULL COMMENT '计划Id',
+  `plan_time` datetime DEFAULT NULL COMMENT '计划时间',
+  `execute_time` datetime DEFAULT NULL COMMENT '执行时间',
+  `finish_time` datetime DEFAULT NULL COMMENT '结束时间',
+  `execute_id` varchar(20) DEFAULT NULL COMMENT '执行人Id',
+  `execute_name` varchar(20) DEFAULT NULL COMMENT '执行人姓名',
+  `parent_id` varchar(20) DEFAULT NULL COMMENT '病人Id',
+  `his_order_id` varchar(20) DEFAULT NULL COMMENT '医嘱唯一号',
+  `his_group_no` varchar(50) DEFAULT NULL COMMENT '医嘱组号',
+  `start_time` datetime DEFAULT NULL COMMENT '医嘱开始时间',
+  `end_time` datetime DEFAULT NULL COMMENT '医嘱结束时间',
+  `supply_code` varchar(1) DEFAULT NULL COMMENT '给药方式',
+  `order_class` varchar(20) DEFAULT NULL COMMENT '医嘱类型',
+  `doctor_name` varchar(20) DEFAULT NULL COMMENT '开嘱医生',
+  `dose_unit` varchar(20) DEFAULT NULL COMMENT '计量单位',
+  `frequence` varchar(20) DEFAULT NULL COMMENT '频率',
+  `status` varchar(1) DEFAULT NULL COMMENT '状态',
+  `split_time` datetime DEFAULT NULL COMMENT '拆分时间',
+  `split_name` varchar(20) DEFAULT NULL COMMENT '拆分人',
+  `drug_name` varchar(10) DEFAULT NULL COMMENT '药物名称',
+  `remark` varchar(200) DEFAULT NULL COMMENT '备注',
+  PRIMARY KEY (`plan_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='医嘱表';

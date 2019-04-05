@@ -33,7 +33,8 @@ CREATE TABLE `zcmu_ward` (
   `ward_name` VARCHAR(20) DEFAULT NULL COMMENT '病区名',
   `parent_Id` VARCHAR(20) DEFAULT NULL COMMENT '病人Id',
   `status` VARCHAR(1) DEFAULT NULL COMMENT '床位是否可用'
-) ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT='病区床位'
+) ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT='病区床位';
+
 //医嘱拆分表
 CREATE TABLE `zcmu_order` (
   `plan_id` varchar(20) NOT NULL COMMENT '计划Id',
@@ -59,3 +60,13 @@ CREATE TABLE `zcmu_order` (
   `remark` varchar(200) DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`plan_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='医嘱表';
+//护士表
+CREATE TABLE `zcmu_nurse` (
+  `nurse_id` varchar(20) NOT NULL COMMENT '护士Id',
+  `nurse_name` varchar(20) DEFAULT NULL COMMENT '护士姓名',
+  `password` varchar(100) DEFAULT NULL COMMENT '登录密码',
+  `nurse_code` VARCHAR(50)  DEFAULT NULL COMMENT '护士工号',
+  `sex` varchar(1) DEFAULT NULL COMMENT '性别',
+  `wardcode` VARCHAR(20)  DEFAULT NULL COMMENT '病区'
+  PRIMARY KEY (`nurse_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='护士表';

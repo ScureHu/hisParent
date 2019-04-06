@@ -7,9 +7,11 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="common" />
+        <module name="eureka" />
         <module name="nurse" />
         <module name="patient" />
         <module name="ward" />
+        <module name="web" />
       </profile>
     </annotationProcessing>
   </component>

@@ -12,6 +12,8 @@
         <module>ward</module>
         <module>nurse</module>
         <module>patient</module>
+        <module>eureka</module>
+        <module>web</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -73,6 +75,18 @@
             </snapshots>
         </repository>
     </repositories>
+    <!--eureka模式开发模块-->
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>Finchley.M9</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <pluginRepositories>
         <pluginRepository>

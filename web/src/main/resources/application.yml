@@ -1,0 +1,22 @@
+server:
+  port: 9010
+spring:
+  application:
+    name: his-web #服务名
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:6868/eureka/
+  instance:
+    prefer-ip-address: true
+zuul:
+  routes:
+    his-ward:
+      path: /ward/** #配置请求URL的请求规则
+      serviceId: his-ward #指定Eureka注册中心中的服务id
+    his-nurse:
+      path: /nurse/** #配置请求URL的请求规则
+      serviceId: his-nurse #指定Eureka注册中心中的服务id
+    his-patient:
+      path: /patient/** #配置请求URL的请求规则
+      serviceId: his-patient #指定Eureka注册中心中的服务id

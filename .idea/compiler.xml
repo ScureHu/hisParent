@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="common" />
         <module name="nurse" />
+        <module name="patient" />
         <module name="ward" />
       </profile>
     </annotationProcessing>

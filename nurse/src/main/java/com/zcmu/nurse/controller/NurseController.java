@@ -36,6 +36,8 @@ public class NurseController {
             Map loginMap = new HashMap();
             loginMap.put("token",token);
             loginMap.put("nurseName",loginNurse.getNurseName());
+            //增加头像地址
+            loginMap.put("avater","头像地址");
             return Result.success(loginMap,"登录成功");
         }else{
             return new Result(false,StatusCode.LOGINERROR,"用户名密码或者选择病区错误");

@@ -11,6 +11,7 @@
         <module>common</module>
         <module>ward</module>
         <module>nurse</module>
+        <module>patient</module>
     </modules>
     <packaging>pom</packaging>
 

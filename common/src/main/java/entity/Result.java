@@ -12,6 +12,13 @@ public class Result {
 
     public Result() {
     }
+
+    public Result(boolean flag, Integer code, String message) {
+        this.flag = flag;
+        this.code = code;
+        this.message = message;
+    }
+
     //返回成功
     public static Result success(Object data,String message){
         Result result = new Result();
@@ -27,6 +34,14 @@ public class Result {
         result.setFlag(true);
         result.setCode(StatusCode.OK);
         result.setData(data);
+        return result;
+    }
+    //返回成功不带数据，只有成功信息
+    public static Result success(String message){
+        Result result = new Result();
+        result.setFlag(true);
+        result.setCode(StatusCode.OK);
+        result.setMessage(message);
         return result;
     }
 

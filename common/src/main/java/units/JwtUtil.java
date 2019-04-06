@@ -35,14 +35,15 @@ public class JwtUtil {
      * 生成JWT
      * @return
      */
-    public String createJWT(String id,String subject,String roles){
+    public String createJWT(String id,String subject,String wardCode){
         long nowMillis = System.currentTimeMillis();
         //当前时间
         Date now = new Date(nowMillis);
         JwtBuilder builder = Jwts.builder().setId(id)
                 .setSubject(subject)
                 .setIssuedAt(now)
-                .signWith(SignatureAlgorithm.HS256,key).claim("roles",roles);
+                .signWith(SignatureAlgorithm.HS256,key)
+                .claim("wardCode",wardCode);
         if(ttl>0){
             builder.setExpiration(new Date(nowMillis + ttl));
         }

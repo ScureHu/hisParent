@@ -1,0 +1,17 @@
+server:
+  port: 9002
+spring:
+  application:
+    name: his-nurse #服务名
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/hisdb?characterEncoding=utf-8
+    username: root
+    password: root
+  jpa:
+    database: mysql
+    show-sql: true
+jwt:
+  config:
+    key: zcmu
+    ttl: 360000

@@ -70,3 +70,22 @@ CREATE TABLE `zcmu_nurse` (
   `wardcode` VARCHAR(20)  DEFAULT NULL COMMENT '病区'
   PRIMARY KEY (`nurse_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='护士表';
+//原始医嘱表
+CREATE TABLE `zcmu_raw_order` (
+  `his_order_id` varchar(20) DEFAULT NULL COMMENT '医嘱唯一号',
+  `start_time` datetime DEFAULT NULL COMMENT '医嘱开始时间',
+  `end_time` datetime DEFAULT NULL COMMENT '医嘱结束时间',
+  `parent_id` varchar(20) DEFAULT NULL COMMENT '病人Id',
+  `supply_code` varchar(1) DEFAULT NULL COMMENT '给药方式',
+  `order_class` varchar(20) DEFAULT NULL COMMENT '医嘱类型',
+  `doctor_name` varchar(20) DEFAULT NULL COMMENT '开嘱医生',
+  `dose_unit` varchar(20) DEFAULT NULL COMMENT '计量单位',
+  `frequence` varchar(20) DEFAULT NULL COMMENT '频率',
+  -- 0->未拆分  1->已拆分 2->已作废
+  `status` varchar(1) DEFAULT NULL COMMENT '状态',
+  `split_time` datetime DEFAULT NULL COMMENT '拆分时间',
+  `split_name` varchar(20) DEFAULT NULL COMMENT '拆分人',
+  `drug_name` varchar(10) DEFAULT NULL COMMENT '药物名称',
+  `remark` varchar(200) DEFAULT NULL COMMENT '备注',
+  PRIMARY KEY (`his_order_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='原始医嘱表';

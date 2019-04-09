@@ -26,13 +26,23 @@ CREATE TABLE `zcmu_patient` (
   PRIMARY KEY (`uuid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='患者';
 
-//病区床位
+//病区
 CREATE TABLE `zcmu_ward` (
   `wardcode` VARCHAR(20) NOT NULL COMMENT '病区',
-  `bed_no` VARCHAR(20) DEFAULT NULL COMMENT '床位号',
   `ward_name` VARCHAR(20) DEFAULT NULL COMMENT '病区名',
-  `parent_Id` VARCHAR(20) DEFAULT NULL COMMENT '病人Id',
-  `status` VARCHAR(1) DEFAULT NULL COMMENT '床位是否可用'
+  `bed_sum` int(20) DEFAULT NULL COMMENT '床位总数',
+   PRIMARY KEY (`wardcode`)
+) ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT='病区';
+
+
+//病区床位
+CREATE TABLE `zcmu_ward_patient` (
+  `id` VARCHAR(20) NOT NULL COMMENT 'id',
+  `bed_no` int(20) DEFAULT NULL COMMENT '床位号',
+  `ward_name` VARCHAR(20) DEFAULT NULL COMMENT '病区名',
+  `patient_Id` VARCHAR(20) DEFAULT NULL COMMENT '病人Id',
+  `status` VARCHAR(1) DEFAULT NULL COMMENT '床位是否可用',
+  PRIMARY KEY (`id`)
 ) ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT='病区床位';
 
 //医嘱拆分表

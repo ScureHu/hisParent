@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/patient")
 public class PatientController {
     /**
-     *
+     * 入院评估单
      * @return
      */
     @RequestMapping(value = "/sheet",method = RequestMethod.POST)

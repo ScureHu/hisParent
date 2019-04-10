@@ -13,21 +13,9 @@ public class Ward {
     @Id
     private String wardcode;
 
-    private String bedNo;
-
-    private String parentId;
+    private Integer bedSum;
 
     private String wardName;
-
-    private String status;
-
-    public String getWardName() {
-        return wardName;
-    }
-
-    public void setWardName(String wardName) {
-        this.wardName = wardName;
-    }
 
     public String getWardcode() {
         return wardcode;
@@ -37,27 +25,19 @@ public class Ward {
         this.wardcode = wardcode;
     }
 
-    public String getBedNo() {
-        return bedNo;
+    public Integer getBedSum() {
+        return bedSum;
     }
 
-    public void setBedNo(String bedNo) {
-        this.bedNo = bedNo;
+    public void setBedSum(Integer bedSum) {
+        this.bedSum = bedSum;
     }
 
-    public String getParentId() {
-        return parentId;
+    public String getWardName() {
+        return wardName;
     }
 
-    public void setParentId(String parentId) {
-        this.parentId = parentId;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
+    public void setWardName(String wardName) {
+        this.wardName = wardName;
     }
 }

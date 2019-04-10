@@ -18,16 +18,7 @@ public class WardService {
      * 查询所有病区
      * @return
      */
-    public List<WardVO> findWard(){
-        //获取病区
-        List<Ward> listWard = wardDao.findward();
-        List<WardVO> listWardVO = new ArrayList<>();
-        for (Ward ward:listWard) {
-            WardVO wardVO = new WardVO();
-            wardVO.setWardCode(ward.getWardcode());
-            wardVO.setWardName(ward.getWardName());
-            listWardVO.add(wardVO);
-        }
-        return listWardVO;
+    public List<Ward> findWard(){
+        return wardDao.findAll();
     }
 }

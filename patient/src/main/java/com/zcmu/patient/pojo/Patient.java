@@ -4,6 +4,7 @@ package com.zcmu.patient.pojo;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -11,7 +12,7 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "zcmu_patient")
-public class Patient {
+public class Patient implements Serializable {
 
     @Id
     private String uuid;
@@ -45,12 +46,22 @@ public class Patient {
     private String contactName;
     //联系人电话
     private String contactPhone;
+    //出院状态
+    private String status;
     //身高
     private String height;
     //体重
     private String weight;
     //部门编号
     private String depetCode;
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     public String getUuid() {
         return uuid;

@@ -41,6 +41,7 @@ CREATE TABLE `zcmu_ward_patient` (
   `bed_no` int(20) DEFAULT NULL COMMENT '床位号',
   `ward_name` VARCHAR(20) DEFAULT NULL COMMENT '病区名',
   `patient_Id` VARCHAR(20) DEFAULT NULL COMMENT '病人Id',
+  `wardcode` VARCHAR(20) NOT NULL COMMENT '病区',
   `status` VARCHAR(1) DEFAULT NULL COMMENT '床位是否可用',
   PRIMARY KEY (`id`)
 ) ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT='病区床位';
@@ -53,7 +54,7 @@ CREATE TABLE `zcmu_order` (
   `finish_time` datetime DEFAULT NULL COMMENT '结束时间',
   `execute_id` varchar(20) DEFAULT NULL COMMENT '执行人Id',
   `execute_name` varchar(20) DEFAULT NULL COMMENT '执行人姓名',
-  `parent_id` varchar(20) DEFAULT NULL COMMENT '病人Id',
+  `patient_id` varchar(20) DEFAULT NULL COMMENT '病人Id',
   `his_order_id` varchar(20) DEFAULT NULL COMMENT '医嘱唯一号',
   `his_group_no` varchar(50) DEFAULT NULL COMMENT '医嘱组号',
   `start_time` datetime DEFAULT NULL COMMENT '医嘱开始时间',
@@ -85,7 +86,7 @@ CREATE TABLE `zcmu_raw_order` (
   `his_order_id` varchar(20) DEFAULT NULL COMMENT '医嘱唯一号',
   `start_time` datetime DEFAULT NULL COMMENT '医嘱开始时间',
   `end_time` datetime DEFAULT NULL COMMENT '医嘱结束时间',
-  `parent_id` varchar(20) DEFAULT NULL COMMENT '病人Id',
+  `patient_id` varchar(20) DEFAULT NULL COMMENT '病人Id',
   `supply_code` varchar(1) DEFAULT NULL COMMENT '给药方式',
   `order_class` varchar(20) DEFAULT NULL COMMENT '医嘱类型',
   `doctor_name` varchar(20) DEFAULT NULL COMMENT '开嘱医生',
@@ -99,3 +100,18 @@ CREATE TABLE `zcmu_raw_order` (
   `remark` varchar(200) DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`his_order_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='原始医嘱表';
+//体征普通表
+CREATE CREATE TABLE `zcmu_sign_default` (
+  `uuid` varchar(20) NOT NULL COMMENT 'ID',
+  `parent_id` varchar(100) DEFAULT NULL COMMENT '病人ID',
+  `parent_name` varchar(100) DEFAULT NULL COMMENT '病人名称',
+  `measure_time` datetime DEFAULT NULL COMMENT '测量时间点',
+  `record_time` datetime DEFAULT NULL COMMENT '体征的录入时间',
+  `vitalsign_type` VARCHAR(1)  DEFAULT NULL COMMENT '体征类型的代码1->体温 2->脉搏 3->心率',
+	`unit` VARCHAR(30)  DEFAULT NULL COMMENT '体征单位',
+	`remark` VARCHAR(200)  DEFAULT NULL COMMENT '备注',
+	`source` VARCHAR(1)  DEFAULT NULL COMMENT '数据来源1->首页录入，2->批量录入修改',
+	`record_nurse_id` varchar(100) DEFAULT NULL COMMENT '记录人代码',
+	`record_nurse_name` varchar(100) DEFAULT NULL COMMENT '记录人名称',
+  PRIMARY KEY (`uuid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='体征普通表';

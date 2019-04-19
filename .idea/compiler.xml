@@ -9,7 +9,9 @@
         <module name="common" />
         <module name="eureka" />
         <module name="nurse" />
+        <module name="order" />
         <module name="patient" />
+        <module name="sign" />
         <module name="ward" />
         <module name="web" />
       </profile>

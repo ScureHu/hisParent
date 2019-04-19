@@ -3,13 +3,14 @@ package com.zcmu.ward.pojo;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
 
 /**
  * 病区实体类
  */
 @Entity
 @Table(name = "zcmu_ward")
-public class Ward {
+public class Ward implements Serializable {
     @Id
     private String wardcode;
 

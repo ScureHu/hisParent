@@ -3,10 +3,11 @@ package com.zcmu.ward.pojo;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "zcmu_ward_patient")
-public class WardPatientBed {
+public class WardPatientBed implements Serializable {
     @Id
     private String id;
 
@@ -17,6 +18,16 @@ public class WardPatientBed {
     private String patientId;
 
     private String status;
+
+    private String wardcode;
+
+    public String getWardcode() {
+        return wardcode;
+    }
+
+    public void setWardcode(String wardcode) {
+        this.wardcode = wardcode;
+    }
 
     public String getId() {
         return id;

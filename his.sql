@@ -5,9 +5,9 @@ USE `hisdb`
 CREATE TABLE `zcmu_patient` (
   `uuid` varchar(20) NOT NULL COMMENT 'ID',
   `wardcode` varchar(20) DEFAULT NULL COMMENT '病区',
-  `bed_No` varchar(20) DEFAULT NULL COMMENT '床位号',
+  `bed_No` int(20)  DEFAULT NULL COMMENT '床位号',
   `name` varchar(20) DEFAULT NULL COMMENT '姓名',
-  `sex` varchar(20) DEFAULT NULL COMMENT '性别',
+  `sex` varchar(1) DEFAULT NULL COMMENT '性别',
   `birthday` datetime DEFAULT NULL COMMENT '生日',
   `age` int(20) DEFAULT NULL COMMENT '年龄',
   `nursing_Level` varchar(1) DEFAULT NULL COMMENT '护理等级',
@@ -18,10 +18,8 @@ CREATE TABLE `zcmu_patient` (
   `id_No` varchar(50) DEFAULT NULL COMMENT '身份证号',
   `home_Address` varchar(500) DEFAULT NULL COMMENT '家庭住址',
   `contact_Name` varchar(20) DEFAULT NULL COMMENT '联系人姓名',
-  `contact_Phone` varchar(20) DEFAULT NULL COMMENT '联系人电话',
+  `contact_Phone` varchar(50) DEFAULT NULL COMMENT '联系人电话',
   `status` varchar(1) DEFAULT NULL COMMENT '病人状态(出/住)',
-  `height` varchar(50) DEFAULT NULL COMMENT '身高',
-  `weight` varchar(50) DEFAULT NULL COMMENT '体重',
   `depet_code` varchar(10) DEFAULT NULL COMMENT '部门编号',
   PRIMARY KEY (`uuid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='患者';
@@ -38,7 +36,7 @@ CREATE TABLE `zcmu_ward` (
 //病区床位
 CREATE TABLE `zcmu_ward_patient` (
   `id` VARCHAR(20) NOT NULL COMMENT 'id',
-  `bed_no` int(20) DEFAULT NULL COMMENT '床位号',
+  `bed_no` int(20) NOT NULL COMMENT '床位号',
   `ward_name` VARCHAR(20) DEFAULT NULL COMMENT '病区名',
   `patient_Id` VARCHAR(20) DEFAULT NULL COMMENT '病人Id',
   `wardcode` VARCHAR(20) NOT NULL COMMENT '病区',
@@ -67,7 +65,7 @@ CREATE TABLE `zcmu_order` (
   `status` varchar(1) DEFAULT NULL COMMENT '状态',
   `split_time` datetime DEFAULT NULL COMMENT '拆分时间',
   `split_name` varchar(20) DEFAULT NULL COMMENT '拆分人',
-  `drug_name` varchar(10) DEFAULT NULL COMMENT '药物名称',
+  `drug_name` varchar(20) DEFAULT NULL COMMENT '药物名称',
   `remark` varchar(200) DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`plan_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='医嘱表';
@@ -94,32 +92,30 @@ CREATE TABLE `zcmu_raw_order` (
   `frequence` varchar(20) DEFAULT NULL COMMENT '频率',
   -- 0->未拆分  1->已拆分 2->已作废
   `status` varchar(1) DEFAULT NULL COMMENT '状态',
-  `split_time` datetime DEFAULT NULL COMMENT '拆分时间',
-  `split_name` varchar(20) DEFAULT NULL COMMENT '拆分人',
-  `drug_name` varchar(10) DEFAULT NULL COMMENT '药物名称',
+  `drug_name` varchar(100) DEFAULT NULL COMMENT '药物名称',
   `remark` varchar(200) DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`his_order_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='原始医嘱表';
 //体征普通表
-CREATE CREATE TABLE `zcmu_sign_default` (
-  `uuid` varchar(20) NOT NULL COMMENT 'ID',
-  `parent_id` varchar(100) DEFAULT NULL COMMENT '病人ID',
-  `parent_name` varchar(100) DEFAULT NULL COMMENT '病人名称',
+CREATE CREATE TABLE `zcmu_sign` (
+  `id` varchar(20) NOT NULL COMMENT 'ID',
+  `parent_id` varchar(20) DEFAULT NULL COMMENT '病人ID',
+  `parent_name` varchar(20) DEFAULT NULL COMMENT '病人名称',
   `measure_time` datetime DEFAULT NULL COMMENT '测量时间点',
   `record_time` datetime DEFAULT NULL COMMENT '体征的录入时间',
   `vitalsign_type` VARCHAR(1)  DEFAULT NULL COMMENT '体征类型的代码1->体温 2->脉搏 3->心率 4->血糖',
-  `vitalsign_nval1` double(4) DEFAULT NULL COMMENT '数字型值1，如体温，脉搏，心率等',
-	`unit` VARCHAR(30)  DEFAULT NULL COMMENT '体征单位',
+  `vitalsign_nval` double(4) DEFAULT NULL COMMENT '数字型值1，如体温，脉搏，心率等',
+	`unit` VARCHAR(20)  DEFAULT NULL COMMENT '体征单位',
 	`remark` VARCHAR(200)  DEFAULT NULL COMMENT '备注',
 	`source` VARCHAR(1)  DEFAULT NULL COMMENT '数据来源1->首页录入，2->批量录入修改',
-	`record_nurse_id` varchar(100) DEFAULT NULL COMMENT '记录人代码',
-	`record_nurse_name` varchar(100) DEFAULT NULL COMMENT '记录人名称',
+	`record_nurse_id` varchar(20) DEFAULT NULL COMMENT '记录人代码',
+	`record_nurse_name` varchar(20) DEFAULT NULL COMMENT '记录人名称',
   PRIMARY KEY (`uuid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='体征普通表';
 //护理计划模板表
 CREATE CREATE TABLE `zcmu_nursing_plan_template`(
   `id` varchar(20) NOT NULL COMMENT 'ID',
-  `name` varchar(100) DEFAULT NULL COMMENT '模板名',
+  `name` varchar(20) DEFAULT NULL COMMENT '模板名',
   `is_valid` varchar(1) DEFAULT NULL COMMENT '是否有效',
   `content` varchar(2000) DEFAULT NULL COMMENT '内容',
   `target` varchar(2000) DEFAULT NULL COMMENT '预期目标',
@@ -129,12 +125,12 @@ CREATE CREATE TABLE `zcmu_nursing_plan_template`(
 //护理计划记录表
 CREATE CREATE TABLE `zcmu_nursing_plan`(
   `id` varchar(20) NOT NULL COMMENT 'ID',
-  `patient_id` varchar(100) DEFAULT NULL COMMENT '病人id',
+  `patient_id` varchar(20) DEFAULT NULL COMMENT '病人id',
   `template_id` varchar(20) DEFAULT NULL COMMENT '使用模板',
-  `template_name` varchar(100) DEFAULT NULL COMMENT '使用模板名',
+  `template_name` varchar(20) DEFAULT NULL COMMENT '使用模板名',
   `record_time` datetime DEFAULT NULL COMMENT '记录时间',
   `recorder_id` varchar(20) DEFAULT NULL COMMENT '记录人Id',
-  `recorder_name` varchar(100) DEFAULT NULL COMMENT '记录人姓名',
+  `recorder_name` varchar(20) DEFAULT NULL COMMENT '记录人姓名',
   `target` varchar(2000) DEFAULT NULL COMMENT '预期目标',
   `content` varchar(2000) DEFAULT NULL COMMENT '内容',
   `nursing_measure` varchar(2000) DEFAULT NULL COMMENT '护理措施',
@@ -149,7 +145,7 @@ CREATE CREATE TABLE `zcmu_dict_he_item`(
 //病人评估
 CREATE CREATE TABLE `zcmu_HEALTH_ASSESS`(
   `id` varchar(20)  NOT NULL COMMENT 'ID',
-  `patient_id` varchar(100) DEFAULT NULL COMMENT '病人id',
+  `patient_id` varchar(20) DEFAULT NULL COMMENT '病人id',
   `create_user_id` varchar(20) DEFAULT NULL COMMENT '创建人姓名',
   `create_user_name` varchar(20) DEFAULT NULL COMMENT '创建人姓名',,
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
@@ -168,7 +164,7 @@ CREATE CREATE TABLE `zcmu_HEALTH_plan`(
   `item_id` varchar(100) DEFAULT NULL COMMENT '项目id',
   `record_time` datetime DEFAULT NULL COMMENT '记录时间',
   `recorder_id` varchar(20) DEFAULT NULL COMMENT '记录人Id',
-  `recorder_name` varchar(100) DEFAULT NULL COMMENT '记录人姓名',
+  `recorder_name` varchar(20) DEFAULT NULL COMMENT '记录人姓名',
   `item_content` varchar(2000) DEFAULT NULL COMMENT '项目内容',
   `health_people` varchar(1)  DEFAULT NULL COMMENT '1->家属，2->病人',
   `health_time` datetime DEFAULT NULL COMMENT '教育时间',

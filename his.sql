@@ -107,7 +107,8 @@ CREATE CREATE TABLE `zcmu_sign_default` (
   `parent_name` varchar(100) DEFAULT NULL COMMENT '病人名称',
   `measure_time` datetime DEFAULT NULL COMMENT '测量时间点',
   `record_time` datetime DEFAULT NULL COMMENT '体征的录入时间',
-  `vitalsign_type` VARCHAR(1)  DEFAULT NULL COMMENT '体征类型的代码1->体温 2->脉搏 3->心率',
+  `vitalsign_type` VARCHAR(1)  DEFAULT NULL COMMENT '体征类型的代码1->体温 2->脉搏 3->心率 4->血糖',
+  `vitalsign_nval1` double(4) DEFAULT NULL COMMENT '数字型值1，如体温，脉搏，心率等',
 	`unit` VARCHAR(30)  DEFAULT NULL COMMENT '体征单位',
 	`remark` VARCHAR(200)  DEFAULT NULL COMMENT '备注',
 	`source` VARCHAR(1)  DEFAULT NULL COMMENT '数据来源1->首页录入，2->批量录入修改',
@@ -115,3 +116,61 @@ CREATE CREATE TABLE `zcmu_sign_default` (
 	`record_nurse_name` varchar(100) DEFAULT NULL COMMENT '记录人名称',
   PRIMARY KEY (`uuid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='体征普通表';
+//护理计划模板表
+CREATE CREATE TABLE `zcmu_nursing_plan_template`(
+  `id` varchar(20) NOT NULL COMMENT 'ID',
+  `name` varchar(100) DEFAULT NULL COMMENT '模板名',
+  `is_valid` varchar(1) DEFAULT NULL COMMENT '是否有效',
+  `content` varchar(2000) DEFAULT NULL COMMENT '内容',
+  `target` varchar(2000) DEFAULT NULL COMMENT '预期目标',
+  `nursing_measure` varchar(2000) DEFAULT NULL COMMENT '护理措施',
+   PRIMARY KEY (`id`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='护理计划模板表';
+//护理计划记录表
+CREATE CREATE TABLE `zcmu_nursing_plan`(
+  `id` varchar(20) NOT NULL COMMENT 'ID',
+  `patient_id` varchar(100) DEFAULT NULL COMMENT '病人id',
+  `template_id` varchar(20) DEFAULT NULL COMMENT '使用模板',
+  `template_name` varchar(100) DEFAULT NULL COMMENT '使用模板名',
+  `record_time` datetime DEFAULT NULL COMMENT '记录时间',
+  `recorder_id` varchar(20) DEFAULT NULL COMMENT '记录人Id',
+  `recorder_name` varchar(100) DEFAULT NULL COMMENT '记录人姓名',
+  `target` varchar(2000) DEFAULT NULL COMMENT '预期目标',
+  `content` varchar(2000) DEFAULT NULL COMMENT '内容',
+  `nursing_measure` varchar(2000) DEFAULT NULL COMMENT '护理措施',
+   PRIMARY KEY (`id`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='护理计划记录表';
+//健康教育项目
+CREATE CREATE TABLE `zcmu_dict_he_item`(
+  id,
+  item_name,项目名称
+  item_content,具体内容
+)
+//病人评估
+CREATE CREATE TABLE `zcmu_HEALTH_ASSESS`(
+  `id` varchar(20)  NOT NULL COMMENT 'ID',
+  `patient_id` varchar(100) DEFAULT NULL COMMENT '病人id',
+  `create_user_id` varchar(20) DEFAULT NULL COMMENT '创建人姓名',
+  `create_user_name` varchar(20) DEFAULT NULL COMMENT '创建人姓名',,
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `caregivers` varchar(100) DEFAULT NULL COMMENT '照顾者',
+  `memory_loss` varchar(50) DEFAULT NULL COMMENT '是否失忆',
+  `psychological` varchar(50) DEFAULT NULL COMMENT '心里状态',
+  `hearing` varchar(50) DEFAULT NULL COMMENT '听力状态',
+  `vision` varchar(50) DEFAULT NULL COMMENT '视力状态',
+   PRIMARY KEY (`id`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='病人评估表';
+//健康教育记录表
+CREATE CREATE TABLE `zcmu_HEALTH_plan`(
+  `id` varchar(20) NOT NULL COMMENT 'ID',
+  `patient_id` varchar(100) DEFAULT NULL COMMENT '病人id',
+  `item_name` varchar(20) DEFAULT NULL COMMENT '项目名称',
+  `item_id` varchar(100) DEFAULT NULL COMMENT '项目id',
+  `record_time` datetime DEFAULT NULL COMMENT '记录时间',
+  `recorder_id` varchar(20) DEFAULT NULL COMMENT '记录人Id',
+  `recorder_name` varchar(100) DEFAULT NULL COMMENT '记录人姓名',
+  `item_content` varchar(2000) DEFAULT NULL COMMENT '项目内容',
+  `health_people` varchar(1)  DEFAULT NULL COMMENT '1->家属，2->病人',
+  `health_time` datetime DEFAULT NULL COMMENT '教育时间',
+   PRIMARY KEY (`id`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='健康教育记录表';

@@ -10,7 +10,7 @@ CREATE TABLE `zcmu_patient` (
   `sex` varchar(1) DEFAULT NULL COMMENT '性别',
   `birthday` datetime DEFAULT NULL COMMENT '生日',
   `age` int(20) DEFAULT NULL COMMENT '年龄',
-  `nursing_Level` varchar(1) DEFAULT NULL COMMENT '护理等级',
+  `nursing_Level` varchar(1) DEFAULT NULL COMMENT '护理等级 1-1级 2-2级 3-3级 4-特级',
   `diagnosis` varchar(50) DEFAULT NULL COMMENT '诊断',
   `attn_Doctor` varchar(20) DEFAULT NULL COMMENT '主治医生',
   `in_Admit_Time` datetime DEFAULT NULL COMMENT '住院时间',
@@ -97,20 +97,22 @@ CREATE TABLE `zcmu_raw_order` (
   PRIMARY KEY (`his_order_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='原始医嘱表';
 //体征普通表
-CREATE CREATE TABLE `zcmu_sign` (
+CREATE TABLE `zcmu_sign` (
   `id` varchar(20) NOT NULL COMMENT 'ID',
-  `parent_id` varchar(20) DEFAULT NULL COMMENT '病人ID',
-  `parent_name` varchar(20) DEFAULT NULL COMMENT '病人名称',
+  `patient_id` varchar(20) DEFAULT NULL COMMENT '病人ID',
+  `patient_name` varchar(20) DEFAULT NULL COMMENT '病人名称',
   `measure_time` datetime DEFAULT NULL COMMENT '测量时间点',
   `record_time` datetime DEFAULT NULL COMMENT '体征的录入时间',
-  `vitalsign_type` VARCHAR(1)  DEFAULT NULL COMMENT '体征类型的代码1->体温 2->脉搏 3->心率 4->血糖',
-  `vitalsign_nval` double(4) DEFAULT NULL COMMENT '数字型值1，如体温，脉搏，心率等',
+  `t` double DEFAULT NULL COMMENT '体温',
+  `p` double DEFAULT NULL COMMENT '脉搏',
+  `r` double DEFAULT NULL COMMENT '心率',
+  `bp` double DEFAULT NULL COMMENT '血压',
 	`unit` VARCHAR(20)  DEFAULT NULL COMMENT '体征单位',
 	`remark` VARCHAR(200)  DEFAULT NULL COMMENT '备注',
 	`source` VARCHAR(1)  DEFAULT NULL COMMENT '数据来源1->首页录入，2->批量录入修改',
 	`record_nurse_id` varchar(20) DEFAULT NULL COMMENT '记录人代码',
 	`record_nurse_name` varchar(20) DEFAULT NULL COMMENT '记录人名称',
-  PRIMARY KEY (`uuid`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='体征普通表';
 //护理计划模板表
 CREATE CREATE TABLE `zcmu_nursing_plan_template`(
@@ -170,3 +172,6 @@ CREATE CREATE TABLE `zcmu_HEALTH_plan`(
   `health_time` datetime DEFAULT NULL COMMENT '教育时间',
    PRIMARY KEY (`id`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='健康教育记录表';
+//患者增加一列出院后由谁照顾,出院去向的字段
+ALTER TABLE zcmu_patient  ADD  `care` varchar(100) NOT NULL COMMIT '出院后由谁照顾';
+ALTER TABLE zcmu_patient  ADD  `for_address` varchar(100) NOT NULL COMMIT '出院后去向';

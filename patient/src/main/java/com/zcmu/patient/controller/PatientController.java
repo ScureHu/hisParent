@@ -58,4 +58,14 @@ public class PatientController {
         patientService.updatePatient(patient);
         return Result.success("出院成功！");
     }
+
+
+    /**
+     * 查询所有在的本病区的
+     * @return
+     */
+    @RequestMapping(method = RequestMethod.GET)
+    public Map<String,String> findAll(){
+        return patientService.findAll();
+    }
 }

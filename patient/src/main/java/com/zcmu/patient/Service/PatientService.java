@@ -16,6 +16,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -51,6 +52,9 @@ public class PatientService {
                 if(searchMap.get("nursingLevel") !=null && !"".equals(searchMap.get("nursingLevel")) ){
                     patientList.add(cb.equal(root.get("nursingLevel").as(String.class),searchMap.get("nursingLevel")));
                 }
+                if(searchMap.get("name") !=null && !"".equals(searchMap.get("name"))){
+                    patientList.add(cb.equal(root.get("name").as(String.class),searchMap.get("name")));
+                }
                 patientList.add(cb.equal(root.get("status").as(String.class),"1"));
                 return cb.and(patientList.toArray(new Predicate[patientList.size()]));
             }
@@ -75,5 +79,18 @@ public class PatientService {
      */
     public void updatePatient(Patient patient) {
         patientDao.updateStatus(patient.getUuid());
+    }
+
+    /**
+     * 查询所有的hz数据只要uuid
+     * @return
+     */
+    public Map<String,String> findAll() {
+        List<Patient> allList = patientDao.findAll();
+        Map<String,String> mapIdAndName = new HashMap<>();
+        for (Patient patient: allList) {
+            mapIdAndName.put(patient.getUuid(),patient.getName());
+        }
+        return mapIdAndName;
     }
 }

@@ -107,7 +107,7 @@ CREATE TABLE `zcmu_sign` (
   `p` double DEFAULT NULL COMMENT '脉搏',
   `r` double DEFAULT NULL COMMENT '心率',
   `bp` double DEFAULT NULL COMMENT '血压',
-	`unit` VARCHAR(20)  DEFAULT NULL COMMENT '体征单位',
+  `giu` double DEFAULT NULL COMMENT '血糖',
 	`remark` VARCHAR(200)  DEFAULT NULL COMMENT '备注',
 	`source` VARCHAR(1)  DEFAULT NULL COMMENT '数据来源1->首页录入，2->批量录入修改',
 	`record_nurse_id` varchar(20) DEFAULT NULL COMMENT '记录人代码',

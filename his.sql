@@ -53,7 +53,6 @@ CREATE TABLE `zcmu_order` (
   `execute_id` varchar(20) DEFAULT NULL COMMENT '执行人Id',
   `execute_name` varchar(20) DEFAULT NULL COMMENT '执行人姓名',
   `patient_id` varchar(20) DEFAULT NULL COMMENT '病人Id',
-  `patient_name` varchar(20) DEFAULT NULL COMMENT '病人姓名',
   `his_order_id` varchar(20) DEFAULT NULL COMMENT '医嘱唯一号',
   `his_group_no` varchar(50) DEFAULT NULL COMMENT '医嘱组号',
   `start_time` datetime DEFAULT NULL COMMENT '医嘱开始时间',

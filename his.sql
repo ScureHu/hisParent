@@ -60,6 +60,7 @@ CREATE TABLE `zcmu_order` (
   `supply_code` varchar(1) DEFAULT NULL COMMENT '给药方式',
   `order_class` varchar(20) DEFAULT NULL COMMENT '医嘱类型',
   `doctor_name`   varchar(20) DEFAULT NULL COMMENT '开嘱医生',
+  `dose` double DEFAULT NULL COMMENT '计量',
   `dose_unit` varchar(20) DEFAULT NULL COMMENT '计量单位',
   `frequence` varchar(20) DEFAULT NULL COMMENT '频率',
   `status` varchar(1) DEFAULT NULL COMMENT '状态',

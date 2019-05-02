@@ -14,7 +14,7 @@ spring:
 jwt:
   config:
     key: zcmu
-    ttl: 360000
+    ttl: 3600000
 eureka:
   client:
     service-url:

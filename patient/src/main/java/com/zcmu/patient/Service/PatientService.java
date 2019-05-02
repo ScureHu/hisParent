@@ -1,7 +1,10 @@
 package com.zcmu.patient.Service;
 
+import com.zcmu.patient.client.WardClient;
+import com.zcmu.patient.controller.BaseExceptionHandler;
 import com.zcmu.patient.dao.PatientDao;
 import com.zcmu.patient.pojo.Patient;
+import com.zcmu.patient.pojo.WardPatientBed;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -29,11 +32,21 @@ public class PatientService {
 
     @Autowired
     private IdWorker idWorker;
+    @Autowired
+    private WardClient wardClient;
 
-    public void save(Patient patient) {
+
+    public Patient save(Patient patient) throws Exception{
         patient.setUuid(String.valueOf(idWorker.nextId()));
         patient.setStatus("1");
+
         patientDao.save(patient);
+        WardPatientBed wardPatientBed = new WardPatientBed();
+        wardPatientBed.setPatientId(patient.getUuid());
+        wardPatientBed.setBedNo(Integer.parseInt(patient.getBedNo()));
+        wardPatientBed.setWardcode(patient.getWardcode());
+        wardClient.savePatient(wardPatientBed);
+        return patient;
     }
 
     /**
@@ -53,7 +66,7 @@ public class PatientService {
                     patientList.add(cb.equal(root.get("nursingLevel").as(String.class),searchMap.get("nursingLevel")));
                 }
                 if(searchMap.get("name") !=null && !"".equals(searchMap.get("name"))){
-                    patientList.add(cb.equal(root.get("name").as(String.class),searchMap.get("name")));
+                    patientList.add(cb.like(root.get("name").as(String.class), (String) "%"+searchMap.get("name")+"%"));
                 }
                 patientList.add(cb.equal(root.get("status").as(String.class),"1"));
                 return cb.and(patientList.toArray(new Predicate[patientList.size()]));

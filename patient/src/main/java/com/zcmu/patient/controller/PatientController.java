@@ -1,14 +1,19 @@
 package com.zcmu.patient.controller;
 
 import com.zcmu.patient.Service.PatientService;
+import com.zcmu.patient.client.WardClient;
 import com.zcmu.patient.pojo.Patient;
+import com.zcmu.patient.pojo.WardPatientBed;
 import entity.PageResult;
 import entity.Result;
+import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
+import units.JwtUtil;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 @RestController
@@ -18,14 +23,23 @@ public class PatientController {
 
     @Autowired
     private PatientService patientService;
+
+    @Autowired
+    private JwtUtil jwtUtil;
     /**
      * 入院评估单
      * @return
      */
     @RequestMapping(value = "/sheet",method = RequestMethod.POST)
-    public Result sheet(@RequestBody Patient patient){
-        patientService.save(patient);
-        return Result.success("保存成功!");
+    public Result sheet(@RequestBody Patient patient,HttpServletRequest request) throws Exception {
+
+        String authorization = request.getHeader("Authorization");
+        String token = authorization.substring(7);
+        Claims claims = jwtUtil.parseJWT(token);
+        patient.setWardcode((String) claims.get("wardCode"));
+        Patient save = patientService.save(patient);
+
+        return Result.success("入院成功！请在患者列表中查询！");
     }
 
     /**

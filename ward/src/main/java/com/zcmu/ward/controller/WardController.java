@@ -4,9 +4,12 @@ import com.zcmu.ward.pojo.WardPatientBed;
 import com.zcmu.ward.service.WardPatientBedService;
 import com.zcmu.ward.service.WardService;
 import entity.Result;
+import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import units.JwtUtil;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
@@ -19,23 +22,28 @@ public class WardController {
 
     @Autowired
     private WardPatientBedService patientBedService;
+
+    @Autowired
+    private JwtUtil jwtUtil;
     /**
      * 查询所有的病区
      * @return
      */
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(value = "/findAll",method = RequestMethod.GET)
     public Result findAll(){
         return Result.success(wardService.findWard(),"查询成功！");
     }
 
     /**
      * 根据wardcode查还剩余的床号
-     * @param wardcode
      * @return
      */
-    @RequestMapping(value = "/bed/{wardcode}",method = RequestMethod.GET)
-    public Result existWardBed(@PathVariable String wardcode){
-       List<Integer> existBedCode = wardService.existWardBed(wardcode);
+    @RequestMapping(value = "/bed",method = RequestMethod.GET)
+    public Result existWardBed(HttpServletRequest request){
+        String authorization = request.getHeader("Authorization");
+        String token = authorization.substring(7);
+        Claims claims = jwtUtil.parseJWT(token);
+        List<Integer> existBedCode = wardService.existWardBed((String) claims.get("wardCode"));
        return Result.success(existBedCode);
     }
 
@@ -49,7 +57,6 @@ public class WardController {
         patientBedService.savePatient(wardPatientBed);
         return Result.success("保存成功！");
     }
-
     /**
      * 删除病床号
      * @return

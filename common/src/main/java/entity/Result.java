@@ -44,6 +44,14 @@ public class Result {
         result.setMessage(message);
         return result;
     }
+    //系统出错
+    public static Result error(String message){
+        Result result = new Result();
+        result.setFlag(false);
+        result.setCode(StatusCode.ERROR);
+        result.setMessage(message);
+        return result;
+    }
 
     public boolean isFlag() {
         return flag;

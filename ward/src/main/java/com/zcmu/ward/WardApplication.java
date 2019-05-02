@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.Bean;
 import units.IdWorker;
+import units.JwtUtil;
 
 @SpringBootApplication
 @EnableEurekaClient
@@ -16,5 +17,10 @@ public class WardApplication {
     @Bean
     public IdWorker idWorkerUtil(){
         return new IdWorker(1,0);
+    }
+
+    @Bean
+    public JwtUtil jwtUtil(){
+        return new JwtUtil();
     }
 }

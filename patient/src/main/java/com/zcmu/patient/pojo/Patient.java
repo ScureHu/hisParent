@@ -48,11 +48,11 @@ public class Patient implements Serializable {
     private String contactPhone;
     //出院状态
     private String status;
-    //身高
-    private String height;
-    //体重
-    private String weight;
-    //部门编号
+    //由谁照顾
+    private String care;
+    //出院后去向
+    private String forAddress;
+    //部门
     private String depetCode;
 
     public String getStatus() {
@@ -191,20 +191,20 @@ public class Patient implements Serializable {
         this.contactPhone = contactPhone;
     }
 
-    public String getHeight() {
-        return height;
+    public String getCare() {
+        return care;
     }
 
-    public void setHeight(String height) {
-        this.height = height;
+    public void setCare(String care) {
+        this.care = care;
     }
 
-    public String getWeight() {
-        return weight;
+    public String getForAddress() {
+        return forAddress;
     }
 
-    public void setWeight(String weight) {
-        this.weight = weight;
+    public void setForAddress(String forAddress) {
+        this.forAddress = forAddress;
     }
 
     public String getDepetCode() {

@@ -155,5 +155,7 @@ CREATE TABLE `zcmu_health_plan`(
    PRIMARY KEY (`id`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='健康教育记录表';
 //患者增加一列出院后由谁照顾,出院去向的字段
-ALTER TABLE zcmu_patient  ADD  `care` VARCHAR(100) NOT NULL COMMENT '出院后由谁照顾'
-ALTER TABLE zcmu_patient  ADD  `for_address` VARCHAR(100) NOT NULL COMMENT '出院后去向';
+ALTER TABLE zcmu_patient  ADD  `care` VARCHAR(100) DEFAULT NULL COMMENT '出院后由谁照顾';
+ALTER TABLE zcmu_patient  ADD  `for_address` VARCHAR(100) DEFAULT NULL COMMENT '出院后去向';
+//病床表增加一列wardcode
+ALTER TABLE zcmu_ward_patient  ADD  `wardcode` VARCHAR(20) DEFAULT NULL COMMENT '病区';

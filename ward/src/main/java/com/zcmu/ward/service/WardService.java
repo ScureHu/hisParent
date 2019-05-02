@@ -29,7 +29,13 @@ public class WardService {
         return wardDao.findAll();
     }
 
+    /**
+     * 剩余的床位
+     * @param wardcode
+     * @return
+     */
     public List<Integer> existWardBed(String wardcode) {
+
         List<WardPatientBed> patientList= patientBedDao.findByWardcodeAndStatus(wardcode,"1");
         List<Integer> bedList = new ArrayList<>();
         for (WardPatientBed p: patientList) {

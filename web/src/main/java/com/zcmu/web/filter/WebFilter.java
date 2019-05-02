@@ -66,7 +66,7 @@ public class WebFilter extends ZuulFilter {
         if(request.getRequestURL().indexOf("login")>0){
             return null;
         }
-        if(request.getRequestURL().indexOf("/ward/ward")>0){
+        if(request.getRequestURL().indexOf("/ward/findAll")>0){
             return null;
         }
         if(request.getRequestURL().indexOf("/nurse/info")>0){
@@ -84,7 +84,7 @@ public class WebFilter extends ZuulFilter {
                     requestContext.addZuulRequestHeader("Authorization",authorization);
                     return null;
                 }catch (Exception e){
-                    e.printStackTrace();
+                    new BaseExceptionHandler().error(e);
                     //终止运行，并且不往下转发
                     requestContext.setSendZuulResponse(false);
                 }

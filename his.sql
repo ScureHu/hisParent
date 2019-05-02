@@ -116,7 +116,7 @@ CREATE TABLE `zcmu_sign` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='体征普通表';
 //护理计划模板表
-CREATE CREATE TABLE `zcmu_nursing_plan_template`(
+CREATE TABLE `zcmu_nursing_plan_template`(
   `id` varchar(20) NOT NULL COMMENT 'ID',
   `name` varchar(20) DEFAULT NULL COMMENT '模板名',
   `is_valid` varchar(1) DEFAULT NULL COMMENT '是否有效',
@@ -126,7 +126,7 @@ CREATE CREATE TABLE `zcmu_nursing_plan_template`(
    PRIMARY KEY (`id`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='护理计划模板表';
 //护理计划记录表
-CREATE CREATE TABLE `zcmu_nursing_plan`(
+CREATE TABLE `zcmu_nursing_plan`(
   `id` varchar(20) NOT NULL COMMENT 'ID',
   `patient_id` varchar(20) DEFAULT NULL COMMENT '病人id',
   `template_id` varchar(20) DEFAULT NULL COMMENT '使用模板',
@@ -139,28 +139,8 @@ CREATE CREATE TABLE `zcmu_nursing_plan`(
   `nursing_measure` varchar(2000) DEFAULT NULL COMMENT '护理措施',
    PRIMARY KEY (`id`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='护理计划记录表';
-//健康教育项目
-CREATE CREATE TABLE `zcmu_dict_he_item`(
-  id,
-  item_name,项目名称
-  item_content,具体内容
-)
-//病人评估
-CREATE CREATE TABLE `zcmu_HEALTH_ASSESS`(
-  `id` varchar(20)  NOT NULL COMMENT 'ID',
-  `patient_id` varchar(20) DEFAULT NULL COMMENT '病人id',
-  `create_user_id` varchar(20) DEFAULT NULL COMMENT '创建人姓名',
-  `create_user_name` varchar(20) DEFAULT NULL COMMENT '创建人姓名',,
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `caregivers` varchar(100) DEFAULT NULL COMMENT '照顾者',
-  `memory_loss` varchar(50) DEFAULT NULL COMMENT '是否失忆',
-  `psychological` varchar(50) DEFAULT NULL COMMENT '心里状态',
-  `hearing` varchar(50) DEFAULT NULL COMMENT '听力状态',
-  `vision` varchar(50) DEFAULT NULL COMMENT '视力状态',
-   PRIMARY KEY (`id`)
-)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='病人评估表';
 //健康教育记录表
-CREATE CREATE TABLE `zcmu_HEALTH_plan`(
+CREATE TABLE `zcmu_health_plan`(
   `id` varchar(20) NOT NULL COMMENT 'ID',
   `patient_id` varchar(100) DEFAULT NULL COMMENT '病人id',
   `item_name` varchar(20) DEFAULT NULL COMMENT '项目名称',
@@ -175,5 +155,5 @@ CREATE CREATE TABLE `zcmu_HEALTH_plan`(
    PRIMARY KEY (`id`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='健康教育记录表';
 //患者增加一列出院后由谁照顾,出院去向的字段
-ALTER TABLE zcmu_patient  ADD  `care` varchar(100) NOT NULL COMMIT '出院后由谁照顾';
-ALTER TABLE zcmu_patient  ADD  `for_address` varchar(100) NOT NULL COMMIT '出院后去向';
+ALTER TABLE zcmu_patient  ADD  `care` VARCHAR(100) NOT NULL COMMENT '出院后由谁照顾'
+ALTER TABLE zcmu_patient  ADD  `for_address` VARCHAR(100) NOT NULL COMMENT '出院后去向';

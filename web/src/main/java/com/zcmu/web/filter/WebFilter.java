@@ -66,6 +66,13 @@ public class WebFilter extends ZuulFilter {
         if(request.getRequestURL().indexOf("login")>0){
             return null;
         }
+        if(request.getRequestURL().indexOf("/ward/ward")>0){
+            return null;
+        }
+        if(request.getRequestURL().indexOf("/nurse/info")>0){
+            return null;
+        }
+
         //得到请求头对象
         String authorization = request.getHeader("Authorization");
         //如果不等于空向后转发

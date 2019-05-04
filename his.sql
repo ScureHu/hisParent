@@ -159,3 +159,5 @@ ALTER TABLE zcmu_patient  ADD  `care` VARCHAR(100) DEFAULT NULL COMMENT '出院�
 ALTER TABLE zcmu_patient  ADD  `for_address` VARCHAR(100) DEFAULT NULL COMMENT '出院后去向';
 //病床表增加一列wardcode
 ALTER TABLE zcmu_ward_patient  ADD  `wardcode` VARCHAR(20) DEFAULT NULL COMMENT '病区';
+//医嘱表增加一列每次的数量
+ALTER TABLE zcmu_raw_order  ADD  `dose` double DEFAULT NULL COMMENT '每次数量';

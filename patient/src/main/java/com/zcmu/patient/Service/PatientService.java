@@ -68,6 +68,9 @@ public class PatientService {
                 if(searchMap.get("name") !=null && !"".equals(searchMap.get("name"))){
                     patientList.add(cb.like(root.get("name").as(String.class), (String) "%"+searchMap.get("name")+"%"));
                 }
+                if(searchMap.get("wardCode")!=null&& !"".equals(searchMap.get("name"))){
+                    patientList.add(cb.equal(root.get("wardcode").as(String.class),searchMap.get("wardCode")));
+                }
                 patientList.add(cb.equal(root.get("status").as(String.class),"1"));
                 return cb.and(patientList.toArray(new Predicate[patientList.size()]));
             }
@@ -91,19 +94,16 @@ public class PatientService {
      * @param patient
      */
     public void updatePatient(Patient patient) {
+        patientDao.saveAndFlush(patient);
         patientDao.updateStatus(patient.getUuid());
+        wardClient.deletePatientBed(patient.getUuid());
     }
 
     /**
      * 查询所有的hz数据只要uuid
      * @return
      */
-    public Map<String,String> findAll() {
-        List<Patient> allList = patientDao.findAll();
-        Map<String,String> mapIdAndName = new HashMap<>();
-        for (Patient patient: allList) {
-            mapIdAndName.put(patient.getUuid(),patient.getName());
-        }
-        return mapIdAndName;
+    public List<Patient> findAll(String wardCode) {
+        return patientDao.findAllByWardcodeAndStatus(wardCode,"1");
     }
 }

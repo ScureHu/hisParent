@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import units.JwtUtil;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -33,10 +34,8 @@ public class PatientController {
     @RequestMapping(value = "/sheet",method = RequestMethod.POST)
     public Result sheet(@RequestBody Patient patient,HttpServletRequest request) throws Exception {
 
-        String authorization = request.getHeader("Authorization");
-        String token = authorization.substring(7);
-        Claims claims = jwtUtil.parseJWT(token);
-        patient.setWardcode((String) claims.get("wardCode"));
+        String wardCode = jwtUtil.getJwtWardCode(request);
+        patient.setWardcode(wardCode);
         Patient save = patientService.save(patient);
 
         return Result.success("入院成功！请在患者列表中查询！");
@@ -47,7 +46,9 @@ public class PatientController {
      * @return
      */
     @RequestMapping(value = "/search/{page}/{size}",method = RequestMethod.POST)
-    public Result searchPatient(@RequestBody Map searchMap,@PathVariable int page,@PathVariable int size){
+    public Result searchPatient(@RequestBody Map searchMap,@PathVariable int page,@PathVariable int size,HttpServletRequest request){
+        String wardCode = jwtUtil.getJwtWardCode(request);
+        searchMap.put("wardCode",wardCode);
         Page pageList = patientService.findSearch(searchMap,page,size);
         return Result.success(new PageResult<>(pageList.getTotalElements(),pageList.getContent()));
     }
@@ -79,7 +80,9 @@ public class PatientController {
      * @return
      */
     @RequestMapping(method = RequestMethod.GET)
-    public Map<String,String> findAll(){
-        return patientService.findAll();
+    public Result findAll(HttpServletRequest request){
+        String wardCode = jwtUtil.getJwtWardCode(request);
+        List<Patient> patientList = patientService.findAll(wardCode);
+        return Result.success(patientList);
     }
 }

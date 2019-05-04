@@ -10,6 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/rawOrder")
+@CrossOrigin
 public class RawOrderController {
 
     @Autowired
@@ -23,7 +24,7 @@ public class RawOrderController {
     @RequestMapping(method = RequestMethod.POST)
     public Result saveRawOrder(@RequestBody RawOrder rawOrder){
         rawOrderService.saveRawOrder(rawOrder);
-        return Result.success("插入成功!");
+        return Result.success("医嘱插入成功!");
     }
 
     /**

@@ -30,9 +30,7 @@ public class RawOrder implements Serializable {
 
     private String status;
 
-    private String splitTime;
-
-    private String splitName;
+    private Double dose;
 
     private String drugName;
 
@@ -118,22 +116,6 @@ public class RawOrder implements Serializable {
         this.status = status;
     }
 
-    public String getSplitTime() {
-        return splitTime;
-    }
-
-    public void setSplitTime(String splitTime) {
-        this.splitTime = splitTime;
-    }
-
-    public String getSplitName() {
-        return splitName;
-    }
-
-    public void setSplitName(String splitName) {
-        this.splitName = splitName;
-    }
-
     public String getDrugName() {
         return drugName;
     }
@@ -148,5 +130,13 @@ public class RawOrder implements Serializable {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public Double getDose() {
+        return dose;
+    }
+
+    public void setDose(Double dose) {
+        this.dose = dose;
     }
 }

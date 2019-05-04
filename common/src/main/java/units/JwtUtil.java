@@ -6,6 +6,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 
 @ConfigurationProperties("jwt.config")
@@ -61,5 +62,17 @@ public class JwtUtil {
                 .setSigningKey(key)
                 .parseClaimsJws(jwtStr)
                 .getBody();
+    }
+
+    /**
+     * 根据HttpServletRequest获取wardCode
+     * @param request
+     * @return
+     */
+    public String getJwtWardCode(HttpServletRequest request){
+        String authorization = request.getHeader("Authorization");
+        String token = authorization.substring(7);
+        Claims claims = parseJWT(token);
+        return (String) claims.get("wardCode");
     }
 }

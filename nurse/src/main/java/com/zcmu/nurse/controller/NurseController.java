@@ -59,8 +59,15 @@ public class NurseController {
         loginMap.put("token",token);
         loginMap.put("nurseName",loginNurse.getNurseName());
         //增加头像地址
-        loginMap.put("avater","http://img1.touxiang.cn/uploads/20131125/25-091231_300.jpg");
+        loginMap.put("avatar","http://img1.touxiang.cn/uploads/20131125/25-091231_300.jpg");
         loginMap.put("roles","nurse");
         return Result.success(loginMap,"登录成功");
+    }
+    /**
+     * 获取用户的登录信息
+     */
+    @RequestMapping(value = "/{usercode}",method = RequestMethod.GET)
+    public Nurse getName(@PathVariable(value = "usercode") String usercode){
+        return nurseService.findByUsrCode(usercode);
     }
 }

@@ -2,14 +2,20 @@ package com.zcmu.order.service;
 
 import com.zcmu.order.dao.OrderDao;
 import com.zcmu.order.dao.RawOrderDao;
+import com.zcmu.order.pojo.Order;
 import com.zcmu.order.pojo.RawOrder;
 import com.zcmu.order.pojo.SplitOrderVO;
+import io.jsonwebtoken.Claims;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import units.Common;
 import units.DateUtil;
+import units.IdWorker;
+import units.JwtUtil;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -25,11 +31,18 @@ public class OrderService {
     @Autowired
     private RawOrderDao rawOrderDao;
 
+    @Autowired
+    private IdWorker idWorker;
+
+    @Autowired
+    private JwtUtil jwtUtil;
     /**
      * 医嘱拆分
+     * @param request
      * @param splitOrderVO
+     * @param splitName
      */
-    public int splitOrder(SplitOrderVO splitOrderVO) {
+    public int splitOrder(SplitOrderVO splitOrderVO, String splitName) {
         //1.根据患者的id去查询存在的1,2,3,4的用药方式，在用的，未拆分的,结束时间要大于今天
         Calendar cal = Calendar.getInstance();
         cal.setTime(new Date());
@@ -46,18 +59,105 @@ public class OrderService {
         }
         //3.一个一个根据时间频率拆分今日和明日的
         for (RawOrder order:rawOrders) {
-            //如果今天是最后一天
-            if(isToDay(order.getEndTime())){
-                order.getFrequence();
+            String frequence = order.getFrequence();
+            String[] split = frequence.split("|");
+            List<Date> list = new ArrayList<>();
+            List<Date> listByFreqTime = null;
+            //如果今天是最后一天,且拆分的频率是1天的
+            if(isToDay(order.getEndTime())&& split[0].equals("1")){
+                switch (split[2]){
+                    case "1":
+                        listByFreqTime = getPlanTimeListByFreqTime("08,", order.getEndTime());
+                        list.addAll(listByFreqTime);
+                        break;
+                    case "2":
+                        listByFreqTime = getPlanTimeListByFreqTime("08,18", order.getEndTime());
+                        list.addAll(listByFreqTime);
+                        break;
+                    case "3":
+                        listByFreqTime = getPlanTimeListByFreqTime("08,14,18", order.getEndTime());
+                        list.addAll(listByFreqTime);
+                        break;
+                }
             }else {
+                //今天不是最后一天,拆分今天和明天的
+                int today = isToday(order.getStartTime());
+                StringBuilder sb = new StringBuilder();
+                switch (split[0]){
+                    case "1":
+                        sb.append("1234567");
+                        break;
+                    case "2":
+                        sb.append("246");
+                        break;
+                    case "3":
+                        sb.append("36");
+                        break;
+                    case "4":
+                        sb.append((today+4)/7);
+                        break;
+                    case "5":
 
+                        break;
+                    case "6":
+
+                        break;
+                    case "7":
+
+                        break;
+                }
+                String timeToday =  null;
+                switch (split[2]){
+                    case "1":
+                        timeToday = "08,";
+                        break;
+                    case "2":
+                        timeToday= "08,18";
+                        break;
+                    case "3":
+                        timeToday= "08,14,18";
+                        break;
+                }
+                List<Date> planTimeListByFreqWeek = getPlanTimeListByFreqWeek(timeToday, sb.toString(),new Date());
+                list.addAll(planTimeListByFreqWeek);
             }
+            Order saveOrder = rawOrderToOrder(order);
+            saveOrder.setSplitName(splitName);
+            List<Order> orders = new ArrayList<>();
+            for (Date plandDate:list) {
+                Order order1 = saveOrder;
+                order1.setPlanTime(plandDate);
+                orders.add(order1);
+            }
+            System.out.println(orders);
         }
         //4.拆分好保存原始医嘱表
         //5.更新原始医嘱表的
         return 0;
     }
 
+    /**
+     * 把单条原始医嘱转化为拆分医嘱
+     * @param rawOrder
+     * @return
+     */
+    public Order rawOrderToOrder(RawOrder rawOrder){
+        Order order = new Order();
+        order.setPatientId(String.valueOf(idWorker.nextId()));
+        order.setPatientId(rawOrder.getPatientId());
+        order.setHisOrderId(rawOrder.getHisOrderId());
+        order.setStartTime(rawOrder.getStartTime());
+        order.setEndTime(rawOrder.getEndTime());
+        order.setSupplyCode(rawOrder.getSupplyCode());
+        order.setDoctorName(rawOrder.getDoctorName());
+        order.setDoseUnit(rawOrder.getDoseUnit());
+        order.setFrequence(rawOrder.getFrequence());
+        order.setStatus("1");
+        order.setSplitTime(new Date());
+        order.setDoctorName(rawOrder.getDrugName());
+        order.setRemark(rawOrder.getRemark());
+        return order;
+    }
     /**
      * 判断是不是今天
      * @param time
@@ -71,7 +171,6 @@ public class OrderService {
         cal.set(Calendar.MILLISECOND, 0);
         return time.compareTo(cal.getTime())==0?true:false;
     }
-
 
     //======================#92132 长期医嘱按his时间更改预执行时间 start========================
     /**

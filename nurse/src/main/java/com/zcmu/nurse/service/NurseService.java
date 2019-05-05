@@ -24,4 +24,13 @@ public class NurseService {
             return null;
         }
     }
+
+    /**
+     *
+     * @param usercode
+     * @return
+     */
+    public Nurse findByUsrCode(String usercode) {
+        return nurseDao.findByNurseCode(usercode);
+    }
 }

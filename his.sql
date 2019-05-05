@@ -5,7 +5,7 @@ USE `hisdb`
 CREATE TABLE `zcmu_patient` (
   `uuid` varchar(20) NOT NULL COMMENT 'ID',
   `wardcode` varchar(20) DEFAULT NULL COMMENT '病区',
-  `bed_No` int(20)  DEFAULT NULL COMMENT '床位号',
+  `bed_no` int(20)  DEFAULT NULL COMMENT '床位号',
   `name` varchar(20) DEFAULT NULL COMMENT '姓名',
   `sex` varchar(1) DEFAULT NULL COMMENT '性别',
   `birthday` datetime DEFAULT NULL COMMENT '生日',

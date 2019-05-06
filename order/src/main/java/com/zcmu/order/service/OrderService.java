@@ -5,8 +5,6 @@ import com.zcmu.order.dao.RawOrderDao;
 import com.zcmu.order.pojo.Order;
 import com.zcmu.order.pojo.RawOrder;
 import com.zcmu.order.pojo.SplitOrderVO;
-import io.jsonwebtoken.Claims;
-import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,8 +12,6 @@ import units.Common;
 import units.DateUtil;
 import units.IdWorker;
 import units.JwtUtil;
-
-import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -38,7 +34,6 @@ public class OrderService {
     private JwtUtil jwtUtil;
     /**
      * 医嘱拆分
-     * @param request
      * @param splitOrderVO
      * @param splitName
      */
@@ -57,6 +52,9 @@ public class OrderService {
         if(rawOrders.size()==0){
             return 0;
         }
+        //累计一共拆分的条数
+        int size = 0;
+
         //3.一个一个根据时间频率拆分今日和明日的
         for (RawOrder order:rawOrders) {
             String frequence = order.getFrequence();
@@ -121,19 +119,47 @@ public class OrderService {
                 List<Date> planTimeListByFreqWeek = getPlanTimeListByFreqWeek(timeToday, sb.toString(),new Date());
                 list.addAll(planTimeListByFreqWeek);
             }
-            Order saveOrder = rawOrderToOrder(order);
-            saveOrder.setSplitName(splitName);
+            //拆分出来的拆分医嘱，过滤掉已经存在拆分医嘱
             List<Order> orders = new ArrayList<>();
+            //加上拆分时间
             for (Date plandDate:list) {
-                Order order1 = saveOrder;
-                order1.setPlanTime(plandDate);
-                orders.add(order1);
+                Order saveOrder = rawOrderToOrder(order);
+                saveOrder.setSplitName(splitName);
+                saveOrder.setPlanTime(plandDate);
+                orders.add(saveOrder);
             }
-            System.out.println(orders);
+            //要保存医嘱
+            List<Order> saveOrders = new ArrayList<>();
+            //根据医嘱号去查询是已经存在的医嘱
+            List<Order> oldHisOrder = orderDao.findAllByHisOrderId(order.getHisOrderId());
+
+            List<Order> newOrderSave = new ArrayList<>();
+            //查当前拆分的医嘱是否已经拆分
+            for (Order newSchedule : orders) {
+                boolean isExist = false;
+                for (Order splitedSchedule : oldHisOrder) {
+                    if (newSchedule.getHisOrderId().equals(splitedSchedule.getHisOrderId())
+                            && DateUtil.getTimeWithoutMS(newSchedule.getPlanTime()).getTime() == DateUtil.getTimeWithoutMS(splitedSchedule.getPlanTime()).getTime()) {
+                        isExist = true;
+                        break;
+                    }
+                }
+                if (!isExist) {
+                    newOrderSave.add(newSchedule);
+                }
+            }
+            //4.拆分好保存原始医嘱表
+            if(newOrderSave.size()==0){
+                return 0;
+            }
+            //保存所有的拆分医嘱
+            size = size+newOrderSave.size();
+            orderDao.saveAll(newOrderSave);
+            //5.更新原始医嘱表的状态
+            rawOrderDao.splitOrder(order.getHisOrderId());
         }
-        //4.拆分好保存原始医嘱表
         //5.更新原始医嘱表的
-        return 0;
+        return size;
     }
 
     /**
@@ -143,7 +169,7 @@ public class OrderService {
      */
     public Order rawOrderToOrder(RawOrder rawOrder){
         Order order = new Order();
-        order.setPatientId(String.valueOf(idWorker.nextId()));
+        order.setPlanId(String.valueOf(idWorker.nextId()));
         order.setPatientId(rawOrder.getPatientId());
         order.setHisOrderId(rawOrder.getHisOrderId());
         order.setStartTime(rawOrder.getStartTime());
@@ -154,8 +180,9 @@ public class OrderService {
         order.setFrequence(rawOrder.getFrequence());
         order.setStatus("1");
         order.setSplitTime(new Date());
-        order.setDoctorName(rawOrder.getDrugName());
+        order.setDrugName(rawOrder.getDrugName());
         order.setRemark(rawOrder.getRemark());
+        order.setDose(rawOrder.getDose());
         return order;
     }
     /**
@@ -172,6 +199,14 @@ public class OrderService {
         return time.compareTo(cal.getTime())==0?true:false;
     }
 
+    /**
+     * 根据患者id获取拆分的医嘱,未执行
+     * @return
+     */
+    public List<Order> findAllByPatientId(String patientId) {
+        List<Order> allByPatientIdAndStatus = orderDao.findAllByPatientIdAndStatus(patientId, "1");
+        return allByPatientIdAndStatus;
+    }
     //======================#92132 长期医嘱按his时间更改预执行时间 start========================
     /**
      * 根据freqTime拆分当天时间
@@ -318,5 +353,24 @@ public class OrderService {
         return returnList;
 
     }
+
+    /**
+     * 执行计划id
+     * @param planId
+     * @param nurseCode
+     */
+    public void executeOrder(String planId, String nurseCode, String nurseName) {
+        orderDao.executeOrder(new Date(),nurseCode,nurseName,planId);
+    }
+
+    /**
+     * 获取已经执行的医嘱
+     * @param patientId
+     * @return
+     */
+    public List<Order> executeList(String patientId) {
+        return orderDao.findAllByPatientIdAndStatus(patientId,"0");
+    }
+
     //======================#92132 长期医嘱按his时间更改预执行时间 end========================
 }

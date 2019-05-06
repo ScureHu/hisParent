@@ -106,4 +106,17 @@ public class PatientService {
     public List<Patient> findAll(String wardCode) {
         return patientDao.findAllByWardcodeAndStatus(wardCode,"1");
     }
+
+    /**
+     * 体征模块特用接口
+     * @return
+     */
+    public Map<String,String> findAll() {
+        List<Patient> allList = patientDao.findAll();
+        Map<String,String> mapIdAndName = new HashMap<>();
+        for (Patient patient: allList) {
+            mapIdAndName.put(patient.getUuid(),patient.getName());
+        }
+        return mapIdAndName;
+    }
 }

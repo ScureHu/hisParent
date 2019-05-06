@@ -51,6 +51,16 @@ public class Order implements Serializable {
 
     private String remark;
 
+    private Double dose;
+
+    public Double getDose() {
+        return dose;
+    }
+
+    public void setDose(Double dose) {
+        this.dose = dose;
+    }
+
     public String getPlanId() {
         return planId;
     }

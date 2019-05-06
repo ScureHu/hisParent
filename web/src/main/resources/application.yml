@@ -23,6 +23,9 @@ zuul:
     his-order:
       path: /order/** #配置请求URL的请求规则
       serviceId: his-order #指定Eureka注册中心中的服务id
+    his-sign:
+      path: /sign/** #配置请求URL的请求规则
+      serviceId: his-sign #指定Eureka注册中心中的服务id
 jwt:
   config:
     key: zcmu

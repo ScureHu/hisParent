@@ -85,4 +85,13 @@ public class PatientController {
         List<Patient> patientList = patientService.findAll(wardCode);
         return Result.success(patientList);
     }
+
+    /**
+     * 体征模块定时任务
+     * @return
+     */
+    @RequestMapping(value = "/task",method = RequestMethod.GET)
+    public Map<String,String> findAll(){
+        return patientService.findAll();
+    }
 }

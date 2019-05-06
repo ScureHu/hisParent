@@ -45,9 +45,11 @@ public class SignDefault implements Serializable {
     //血压
     private Double bp;
 
-    private String unit;
+    private String glu;
 
     private String source;
+
+    private String remark;
 
     private String recordNurseId;
 
@@ -125,12 +127,20 @@ public class SignDefault implements Serializable {
         this.bp = bp;
     }
 
-    public String getUnit() {
-        return unit;
+    public String getGlu() {
+        return glu;
     }
 
-    public void setUnit(String unit) {
-        this.unit = unit;
+    public void setGlu(String glu) {
+        this.glu = glu;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 
     public String getSource() {

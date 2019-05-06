@@ -26,6 +26,9 @@ zuul:
     his-sign:
       path: /sign/** #配置请求URL的请求规则
       serviceId: his-sign #指定Eureka注册中心中的服务id
+    his-careplan:
+      path: /careplan/** #配置请求URL的请求规则
+      serviceId: his-careplan #指定Eureka注册中心中的服务id
 jwt:
   config:
     key: zcmu

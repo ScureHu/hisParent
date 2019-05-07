@@ -76,7 +76,7 @@ public class WebFilter extends ZuulFilter {
         //得到请求头对象
         String authorization = request.getHeader("Authorization");
         //如果不等于空向后转发
-        if(!Common.isEmpty(authorization)){
+           if(!Common.isEmpty(authorization)){
                 if(authorization.startsWith("Bearer ")){
                 String token = authorization.substring(7);
                 try{
